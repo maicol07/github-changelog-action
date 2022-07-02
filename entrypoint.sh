@@ -27,14 +27,15 @@ while getopts "n:c:o:t:" opt; do
 done
 shift $((OPTIND -1))
 
-repository_url = $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
+repository_url = "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
 
 if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
   echo "::debug ::git-chlog: -c '${config}'"
   echo "::debug ::git-chlog: -n '${next_tag}'"
   echo "::debug ::git-chlog: -o '${output}'"
   echo "::debug ::git-chlog: -t '${tag}'"
-  echo "::debug ::git-chlog: -r '${repository_url}'"
+  echo "::debug ::git-chlog: Repo URL '${repository_url}'"
+  echo "::debug ::git-chlog: Repo debug: '${GITHUB_SERVER_URL}' '${GITHUB_REPOSITORY}'"
   echo "::info ::git-chlog executing command: /usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag}"
 
   changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag})
