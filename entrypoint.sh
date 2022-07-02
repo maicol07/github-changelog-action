@@ -27,7 +27,7 @@ while getopts "n:c:o:t:" opt; do
 done
 shift $((OPTIND -1))
 
-git fetch
+git config --global --add safe.directory /github/workspace
 repository_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
 
 if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
