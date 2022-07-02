@@ -31,3 +31,5 @@ runs:
     - ${{ inputs.filename }}
     - -t
     - ${{ inputs.tag }}
+    - -r
+    - ${{ github.server_url }}/${{ github.repository }}
