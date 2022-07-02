@@ -27,7 +27,7 @@ while getopts "n:c:o:t:" opt; do
 done
 shift $((OPTIND -1))
 
-$repository_url = "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+repository_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
 
 if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
   echo "::debug ::git-chlog: -c '${config}'"
