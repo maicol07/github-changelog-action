@@ -41,22 +41,15 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
 
   changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag})
 
-  echo "----------------------------------------------------------"
-  echo "${changelog}"
-  echo "----------------------------------------------------------"
+  #echo "----------------------------------------------------------"
+  #echo "${changelog}"
+  #echo "----------------------------------------------------------"
 
   echo "::debug ::git-chlog: -o '${output}'"
   if [[ ! -z "$output" ]]; then
     echo "::debug ::git-chlog -o options is set. writing changelog to ${output}"
     echo "${changelog}" > ${output}
   fi
-
-  changelog="${changelog//'%'/'%25'}"
-  changelog="${changelog//$'\n'/'%0A'}"
-  changelog="${changelog//$'\r'/'%0D'}"
-  echo "::set-output name=changelog::${changelog}"
-
-
 
 else 
   echo "::warning ::git-chlog configuration was not found, skipping changelog generation."
