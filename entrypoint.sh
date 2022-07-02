@@ -39,9 +39,9 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
 
   changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag})
 
-  #echo "----------------------------------------------------------"
-  #echo "${changelog}"
-  #echo "----------------------------------------------------------"
+  echo "::debug ::git-chlog: ----------------------------------------------------------"
+  echo "::debug ::git-chlog: ${changelog}"
+  echo "::debug ::git-chlog: ----------------------------------------------------------"
 
   echo "::debug ::git-chlog: -o '${output}'"
   if [[ ! -z "$output" ]]; then
