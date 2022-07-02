@@ -32,4 +32,4 @@ runs:
     - -t
     - ${{ inputs.tag }}
     - -r
-    - ${{ github.server_url }}/${{ github.repository }}
+    - ${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}
