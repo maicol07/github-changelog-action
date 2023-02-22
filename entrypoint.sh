@@ -1,7 +1,7 @@
 #!/bin/sh
 cd /github/workspace/
 
-while getopts "n:c:o:t:" opt; do
+while getopts "n:c:o:t:p:" opt; do
   case ${opt} in
     c )
       if [ -z "${OPTARG}" ]; then
@@ -23,10 +23,17 @@ while getopts "n:c:o:t:" opt; do
     t )
       tag="${OPTARG}"
       ;;
+    p )
+      path="${OPTARG}"
+      ;;
   esac
 done
 shift $((OPTIND -1))
 
+if [[ ! -z "$path" ]]; then
+    echo "::debug ::git-chlog -p options is set. change directory to ${path}"
+    cd $path
+fi
 git config --global --add safe.directory /github/workspace
 repository_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
 
@@ -35,9 +42,10 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
   echo "::debug ::git-chlog: -n '${next_tag}'"
   echo "::debug ::git-chlog: -o '${output}'"
   echo "::debug ::git-chlog: -t '${tag}'"
+  echo "::debug ::git-chlog: -p '${path}'"
   echo "::debug ::git-chlog: Repo URL '${repository_url}'"
   echo "::debug ::git-chlog: Repo debug: '${GITHUB_SERVER_URL}' '${GITHUB_REPOSITORY}'"
-  
+
   git fetch --all --tags
 
   echo "::info ::git-chlog executing command: /usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag}"
@@ -53,8 +61,8 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
     echo "${changelog}" > ${output}
   fi
 
-  echo "::set-output name=changelog::$( echo "$changelog" | jq -sRr @uri )"
+  echo "changelog=$( echo "$changelog" | jq -sRr @uri )" >> $GITHUB_OUTPUT
 
-else 
+else
   echo "::warning ::git-chlog configuration was not found, skipping changelog generation."
 fi
