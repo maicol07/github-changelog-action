@@ -1,4 +1,4 @@
-FROM docker.io/bash:latest
+FROM frolvlad/alpine-bash:latest
 
 COPY entrypoint.sh /entrypoint.sh
 RUN apk add --no-cache git jq && \
