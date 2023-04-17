@@ -48,8 +48,8 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
 
   git fetch --all --tags
 
-  echo "::info ::git-chlog executing command: /usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag}"
-  changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url=${repository_url} ${next_tag} ${tag})
+  echo "::info ::git-chlog executing command: /usr/local/bin/git-chglog --config ${config}/config.yml --repository-url=${repository_url} ${tag} --next-tag ${next_tag}"
+  changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url="${repository_url}" "${tag}" --next-tag "${next_tag}")
 
   echo "::debug ::git-chlog: ----------------------------------------------------------"
   echo "::debug ::git-chlog: ${changelog}"

@@ -6,8 +6,8 @@ branding:
 
 inputs:
   next_version:
-    description: 'Next version'
-    required: true
+    description: 'Next version tag to use instead of UNRELEASED'
+    required: false
 
   config_dir:
     description: 'git-chglog configuration directory'
@@ -24,6 +24,11 @@ inputs:
     default: ''
     required: false
 
+  tag_query:
+    description: 'Optional tag query to use for changelog generation'
+    default: ''
+    required: false
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -35,6 +40,6 @@ runs:
     - -o
     - ${{ inputs.filename }}
     - -t
-    - ${{ inputs.tag }}
+    - ${{ inputs.tag_query }}
     - -p
     - ${{ inputs.path }}
