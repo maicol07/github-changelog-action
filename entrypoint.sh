@@ -12,7 +12,7 @@ while getopts "n:c:o:t:p:" opt; do
       ;;
     n )
       if [ -n "${OPTARG}" ]; then
-        next_tag="--next-tag ${OPTARG}"
+        next_tag="--next-tag=${OPTARG}"
       fi
       ;;
     o )
@@ -51,8 +51,8 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
 
   git fetch --all --tags
 
-  echo "::info ::git-chlog executing command: /usr/local/bin/git-chglog --config ${config}/config.yml --repository-url=${repository_url} ${tag} --next-tag ${next_tag}"
-  changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url="${repository_url}" "${tag}" --next-tag "${next_tag}")
+  echo "::info ::git-chlog executing command: /usr/local/bin/git-chglog --config ${config}/config.yml --repository-url=${repository_url} ${tag} ${next_tag}"
+  changelog=$(/usr/local/bin/git-chglog --config "${config}/config.yml" --repository-url="${repository_url}" "${tag}" "${next_tag}")
 
   echo "::debug ::git-chlog: ----------------------------------------------------------"
   echo "::debug ::git-chlog: ${changelog}"
