@@ -11,12 +11,12 @@ while getopts "n:c:o:t:p:" opt; do
       config=$OPTARG
       ;;
     n )
-      if [ ! -z ${OPTARG} ]; then
+      if [ -n "${OPTARG}" ]; then
         next_tag="--next-tag ${OPTARG}"
       fi
       ;;
     o )
-      if [ ! -z ${OPTARG} ]; then
+      if [ -n "${OPTARG}" ]; then
         output="${OPTARG}"
       fi
       ;;
@@ -26,13 +26,16 @@ while getopts "n:c:o:t:p:" opt; do
     p )
       path="${OPTARG}"
       ;;
+    * )
+      echo "Invalid option: ${OPTARG}" 1>&2
+      ;;
   esac
 done
 shift $((OPTIND -1))
 
-if [[ ! -z "$path" ]]; then
+if [[ -n "$path" ]]; then
     echo "::debug ::git-chlog -p options is set. change directory to ${path}"
-    cd $path
+    cd "$path" || exit
 fi
 git config --global --add safe.directory /github/workspace
 repository_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
@@ -56,12 +59,12 @@ if [ -f "${config}/config.yml" ] && [ -f "${config}/CHANGELOG.tpl.md" ]; then
   echo "::debug ::git-chlog: ----------------------------------------------------------"
 
   echo "::debug ::git-chlog: -o '${output}'"
-  if [[ ! -z "$output" ]]; then
+  if [[ -n "$output" ]]; then
     echo "::debug ::git-chlog -o options is set. writing changelog to ${output}"
-    echo "${changelog}" > ${output}
+    echo "${changelog}" > "${output}"
   fi
 
-  echo "changelog=$( echo "$changelog" | jq -sRr @uri )" >> $GITHUB_OUTPUT
+  echo "changelog=$( echo "$changelog" | jq -sRr @uri )" >> "$GITHUB_OUTPUT"
 
 else
   echo "::warning ::git-chlog configuration was not found, skipping changelog generation."
