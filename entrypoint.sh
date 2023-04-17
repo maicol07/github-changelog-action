@@ -1,5 +1,5 @@
-#!/bin/sh
-cd /github/workspace/
+#!/bin/bash
+cd /github/workspace/ || exit
 
 while getopts "n:c:o:t:p:" opt; do
   case ${opt} in
